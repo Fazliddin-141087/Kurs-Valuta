@@ -68,11 +68,9 @@ class HomeFragment : Fragment() {
             it.forEach { valute ->
                 titleList.add(valute.code)
             }
-
             viewPagerAdapters.notifyDataSetChanged()
             viewPagerAdapters.submitList(it)
             setTabs()
-
         }
         return binding.root
     }

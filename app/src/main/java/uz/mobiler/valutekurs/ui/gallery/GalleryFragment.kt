@@ -1,11 +1,11 @@
 package uz.mobiler.valutekurs.ui.gallery
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import uz.mobiler.valutekurs.R
 import uz.mobiler.valutekurs.adapters.GalleryRvAdapters
 import uz.mobiler.valutekurs.database.AppDatabase
 import uz.mobiler.valutekurs.databinding.FragmentGalleryBinding
@@ -29,6 +29,8 @@ class GalleryFragment : Fragment() {
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
 
+        setHasOptionsMenu(true)
+
         appDatabase = AppDatabase.getInctance(requireContext())
         list = ArrayList()
         list = appDatabase.valuteDao().getAllValute() as ArrayList
@@ -48,6 +50,19 @@ class GalleryFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemId = item.itemId
+        if(itemId==R.menu.main){
+            Toast.makeText(requireContext(), "Bosildi", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
