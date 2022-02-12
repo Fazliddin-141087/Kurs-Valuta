@@ -1,14 +1,17 @@
 package uz.mobiler.valutekurs
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.ui.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import uz.mobiler.valutekurs.databinding.ActivityMainBinding
@@ -16,7 +19,7 @@ import uz.mobiler.valutekurs.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.appBarMain.toolbar)
+        setSupportActionBar(binding.toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
 
         supportActionBar?.elevation=0f
         supportActionBar?.setHomeButtonEnabled(true)

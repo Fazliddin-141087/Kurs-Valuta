@@ -22,4 +22,14 @@
     <style name="Theme.ValuteKurs.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.ValuteKurs.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ThemeOverlay.SearchView" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Text color -->
+        <item name="android:editTextColor">@color/black</item>
+        <!-- Hint text color -->
+        <item name="android:textColorHint">@color/black</item>
+    </style>
+
+
+
+
 </resources>

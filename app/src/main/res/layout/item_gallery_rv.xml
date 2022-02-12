@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="3dp"
-                        android:text="@{valute.code}"
+                        android:text="@{valute.title}"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />

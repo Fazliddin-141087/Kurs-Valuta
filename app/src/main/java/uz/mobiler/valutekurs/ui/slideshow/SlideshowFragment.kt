@@ -42,6 +42,8 @@ class SlideshowFragment : Fragment() {
 
         binding.shungaChiqadi.visibility=View.INVISIBLE
 
+        val posit = arguments?.getInt("position")
+
         slideshowViewModel.getValute().observe(viewLifecycleOwner) {
             binding.editCurs.visibility=View.VISIBLE
             binding.input.visibility=View.VISIBLE
@@ -73,6 +75,10 @@ class SlideshowFragment : Fragment() {
                 binding.spinnerUsa.setSelection(+1)
             }else{
                 binding.spinnerUsa.setSelection(1)
+            }
+
+            if (posit!=null){
+                binding.spinnerUsa.setSelection(posit)
             }
 
             binding.editCurs.addTextChangedListener { edit->
@@ -113,9 +119,8 @@ class SlideshowFragment : Fragment() {
             binding.spinnerUsa.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
-                    visibility()
-
-                    var valute1 = list[binding.spinnerUsa.selectedItemPosition]
+                    var valute1 = list[p2]
+                    var valute2 = list[binding.spinnerUzb.selectedItemPosition]
 
                     if (valute1.nbu_buy_price.isEmpty()){
                         binding.nbu1.text="${valute1.cb_price} UZS "
@@ -123,6 +128,17 @@ class SlideshowFragment : Fragment() {
                     }else{
                         binding.nbu1.text="${valute1.nbu_buy_price} UZS "
                         binding.nbu2.text="${valute1.nbu_cell_price} UZS "
+                    }
+
+                    if (binding.editCurs.text.toString().isNotEmpty()){
+                        var a="${((binding.editCurs.text.toString().toDouble()*valute1.cb_price.toDouble())/valute2.cb_price.toDouble())}"
+                        var b= (a.toDouble()/1).toInt()
+                        var s=((a.toDouble()%1)*100).toInt()
+
+                        binding.shungaChiqadi.text="$b.$s ${valute2.code}"
+
+                    }else{
+                        binding.shungaChiqadi.visibility=View.INVISIBLE
                     }
 
                 }
@@ -134,9 +150,8 @@ class SlideshowFragment : Fragment() {
             binding.spinnerUzb.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
-                    visibility()
-
                     var valute1 = list[binding.spinnerUsa.selectedItemPosition]
+                    var valute2 = list[p2]
 
                     if (valute1.nbu_buy_price.isEmpty()){
                         binding.nbu1.text="${valute1.cb_price} UZS "
@@ -144,6 +159,17 @@ class SlideshowFragment : Fragment() {
                     }else{
                         binding.nbu1.text="${valute1.nbu_buy_price} UZS "
                         binding.nbu2.text="${valute1.nbu_cell_price} UZS "
+                    }
+
+                    if (binding.editCurs.text.toString().isNotEmpty()){
+                        var a="${((binding.editCurs.text.toString().toDouble()*valute1.cb_price.toDouble())/valute2.cb_price.toDouble())}"
+                        var b= (a.toDouble()/1).toInt()
+                        var s=((a.toDouble()%1)*100).toInt()
+
+                        binding.shungaChiqadi.text="$b.$s ${valute2.code}"
+
+                    }else{
+                        binding.shungaChiqadi.visibility=View.INVISIBLE
                     }
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -156,10 +182,8 @@ class SlideshowFragment : Fragment() {
                 binding.spinnerUzb.setSelection(binding.spinnerUsa.selectedItemPosition,true)
                 binding.spinnerUsa.setSelection(aa,true)
 
-                visibility()
-
                 var valute1 = list[binding.spinnerUsa.selectedItemPosition]
-                  var valute2 = list[binding.spinnerUzb.selectedItemPosition]
+                var valute2 = list[binding.spinnerUzb.selectedItemPosition]
 
                 if (valute1.nbu_buy_price.isEmpty()){
                     binding.nbu1.text="${valute1.cb_price} UZS "
@@ -184,14 +208,6 @@ class SlideshowFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun visibility(){
-        if (binding.editCurs.text.toString().isNotEmpty()){
-            binding.shungaChiqadi.visibility=View.VISIBLE
-        }else{
-            binding.shungaChiqadi.visibility=View.INVISIBLE
-        }
     }
 
     override fun onDestroyView() {

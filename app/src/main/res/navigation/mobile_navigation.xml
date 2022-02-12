@@ -22,10 +22,5 @@
         android:name="uz.mobiler.valutekurs.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
-    <fragment
-        android:id="@+id/viewPagerFragment"
-        android:name="uz.mobiler.valutekurs.ViewPagerFragment"
-        android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager" />
 
 </navigation>

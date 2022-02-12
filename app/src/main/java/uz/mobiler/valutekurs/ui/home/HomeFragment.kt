@@ -26,6 +26,7 @@ class HomeFragment : Fragment() {
     lateinit var viewPagerAdapters: ViewPagerAdapters
     lateinit var titleList: ArrayList<String>
     lateinit var list: ArrayList<Valute>
+    lateinit var adapterList: ArrayList<Valute>
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -38,11 +39,10 @@ class HomeFragment : Fragment() {
 
         appDatabase = AppDatabase.getInctance(requireContext())
         titleList = ArrayList()
-        list = ArrayList()
-        list = appDatabase.valuteDao().getAllValute() as ArrayList
+        adapterList = ArrayList()
+        adapterList = appDatabase.valuteDao().getAllValute() as ArrayList
 
-        homeRvAdapters = HomeRvAdapters(list)
-        binding.homeRv.adapter = homeRvAdapters
+
 
         viewPagerAdapters = ViewPagerAdapters()
         binding.viewPager.adapter = viewPagerAdapters
@@ -58,19 +58,22 @@ class HomeFragment : Fragment() {
             binding.progress.visibility=View.INVISIBLE
             binding.tv.visibility=View.VISIBLE
 
-            if (appDatabase.valuteDao().getAllValute().isEmpty()) {
-                for (valute in it) {
+            homeRvAdapters = HomeRvAdapters()
+
+            for (valute in it) {
+                if (appDatabase.valuteDao().getAllValuteByDate(valute.date,valute.code).isEmpty()){
                     appDatabase.valuteDao().insertValue(valute)
-                    list.add(valute)
                 }
             }
 
             it.forEach { valute ->
                 titleList.add(valute.code)
             }
+
             viewPagerAdapters.notifyDataSetChanged()
             viewPagerAdapters.submitList(it)
             setTabs()
+            rvAdapter(it[0])
         }
         return binding.root
     }
@@ -78,6 +81,17 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun rvAdapter(valute: Valute) {
+        val data = appDatabase.valuteDao().getAllValuteByDateRv(
+            valute.date,
+            valute.code
+        ).reversed()
+        homeRvAdapters.setAdpater(data)
+        homeRvAdapters.notifyDataSetChanged()
+        binding.homeRv.adapter = homeRvAdapters
     }
 
     private fun setTabs() {
